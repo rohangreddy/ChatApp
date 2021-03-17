@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link } from "react-router-dom";
 
 var rootStyle = {
     backgroundColor: '#363940',
@@ -45,7 +46,7 @@ export default class Landing extends Component {
                                     <input class="input" type="password" placeholder="*******" style={fieldStyle}></input>
                                 </div>
                             </div>
-                                <button class="button" style={{backgroundColor: '#6979F8'}}>Login</button>
+                                <Link to="/main"><button class="button" style={{backgroundColor: '#6979F8'}}>Login</button></Link>
                         </form>
                     </div>
                 </div>
