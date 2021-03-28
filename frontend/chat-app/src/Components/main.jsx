@@ -54,7 +54,7 @@ export default class MainPage extends Component {
                             </div>
                         </div>
                         <div class="column" style={{backgroundColor: '#363940', height: '100vh'}}>
-                                <h1>Welcome {auth().currentUser.displayName}!</h1>
+                                <h1>Welcome {this.state.user.displayName}, {this.state.user.email}!</h1>
                         </div>
                     </div>
                 </div>
