@@ -7,7 +7,8 @@ import { auth } from '../services/firebase'
 var rootStyle = {
     backgroundColor: '#212226',
     color : 'white',
-    height: '100vh'
+    height: '100vh',
+    margin: '0'
 }
 
 export default class MainPage extends Component {
