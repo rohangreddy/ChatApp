@@ -11,6 +11,7 @@
 #
 # Happy Coding!
 
+
 service: backend
 # app and org for use with dashboard.serverless.com
 app: app
@@ -24,6 +25,9 @@ provider:
   name: aws
   runtime: python3.8
   lambdaHashingVersion: 20201221
+
+plugins: 
+  - serverless-offline
 
 # you can overwrite defaults here
 #  stage: dev
@@ -70,6 +74,12 @@ functions:
           path: /{proxy+}
           method: ANY
           cors: true
+  chats:
+    handler: handler.chats
+    events:
+      - http:
+          path: /chats
+          method: GET
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
