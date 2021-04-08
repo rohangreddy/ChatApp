@@ -1,6 +1,6 @@
+import firebase from 'firebase';
 import React, { Component } from 'react'
 import { Redirect } from "react-router-dom";
-
 import { auth } from '../services/firebase'
 
 
@@ -11,12 +11,64 @@ var rootStyle = {
     margin: '0'
 }
 
+class Chats extends React.Component {
+    state = {
+            chats: null
+        }
+
+    async componentDidMount() {
+        const idToken = await firebase.auth().currentUser?.getIdToken()
+        const response = await fetch('http://localhost:4000/dev/chats', {
+            headers: {
+                'Authorization': idToken
+            }
+        })
+        if (response.status === 401) {
+            return console.log('unauthorized')
+        }
+        const chats = await response.json()
+        this.setState({chats: chats})
+        console.log(this.state.chats)
+    }
+
+    
+
+    render() {
+        return (
+            <div>
+                <div className="title has-text-white has-text-centered">My Chats </div>
+                <ul>
+                    {
+                        this.state.chats && this.state.chats.map(chat => {
+                            return (
+                                <li>
+                                    <div class="card column is-narrow is-half is-offset-one-quarter" style={{ backgroundColor: '#303136' }}>
+                                        <div class="card-content">
+                                            <div class="content has-text-white">
+                                                Chat With: {chat.recipient_id}
+                                            </div>
+                                            <div class="content has-text-white">
+                                                Chat Content: {chat.convos}
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="column"></div>
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            </div>
+        )
+    }
+}
+
 export default class MainPage extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            user: auth().currentUser
+            user: auth().currentUser,
         }
     }
 
@@ -39,23 +91,13 @@ export default class MainPage extends Component {
         if (this.state.user) {
             return (
                 <div style={rootStyle}>
-                    <div class="title has-text-white">
-                            ChatApp
-                    </div>
                     <div class="column" align="right">
                         <button class="button" style={{backgroundColor: '#40454B', color: '#FFFFFF'}} onClick={() => this.signOut()}>Sign Out</button>
                     </div>
                     <div class="columns">
-                        <div class="column is-narrow" style={{ backgroundColor: '#303136', height: '85vh', width: '300px' }}>
-                            <div class="field">
-                                <button class="button is-fullwidth" style={{backgroundColor: '#40454B', color: '#FFFFFF'}}>Friends</button>
-                                </div>
-                            <div class="field">
-                                <button class="button is-fullwidth" style={{backgroundColor: '#40454B', color: '#FFFFFF'}}>Messages</button>
-                            </div>
-                        </div>
                         <div class="column" style={{backgroundColor: '#363940', height: '100vh'}}>
                                 <h1>Welcome {this.state.user.displayName}, {this.state.user.email}!</h1>
+                                <Chats/>
                         </div>
                     </div>
                 </div>
