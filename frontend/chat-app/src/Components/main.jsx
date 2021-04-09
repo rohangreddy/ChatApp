@@ -43,12 +43,17 @@ class Chats extends React.Component {
                             return (
                                 <li>
                                     <div class="card column is-narrow is-half is-offset-one-quarter" style={{ backgroundColor: '#303136' }}>
+                                        <header class="card-header">
+                                            <p class="card-header-title has-text-white has-text-centered">
+                                                {chat.room_name}
+                                            </p>
+                                        </header>
                                         <div class="card-content">
                                             <div class="content has-text-white">
-                                                Chat With: {chat.recipient_id}
+                                                Members: {chat.member_ids}
                                             </div>
                                             <div class="content has-text-white">
-                                                Chat Content: {chat.convos}
+                                                Number of Messages: {chat.num_msgs}
                                             </div> 
                                         </div>
                                     </div>
