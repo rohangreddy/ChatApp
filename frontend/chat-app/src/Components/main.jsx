@@ -28,10 +28,7 @@ class Chats extends React.Component {
         }
         const chats = await response.json()
         this.setState({chats: chats})
-        console.log(this.state.chats)
     }
-
-    
 
     render() {
         return (
@@ -92,6 +89,14 @@ export default class MainPage extends Component {
     signOut() {
         auth().signOut()
     }
+
+    componentWillUnmount() {
+        // fix Warning: Can't perform a React state update on an unmounted component
+        this.setState = (state,callback)=>{
+            return;
+        };
+    }
+
     render() {
         if (this.state.user) {
             return (
