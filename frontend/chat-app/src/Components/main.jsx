@@ -18,7 +18,7 @@ class Chats extends React.Component {
 
     async componentDidMount() {
         const idToken = await firebase.auth().currentUser?.getIdToken()
-        const response = await fetch('http://localhost:4000/dev/chats', {
+        const response = await fetch('https://ogm125joca.execute-api.us-east-1.amazonaws.com/dev/chats', {
             headers: {
                 'Authorization': idToken
             }
