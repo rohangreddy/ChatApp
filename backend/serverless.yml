@@ -26,8 +26,8 @@ provider:
   runtime: python3.8
   lambdaHashingVersion: 20201221
 
-plugins: 
-  - serverless-offline
+#plugins: 
+  #- serverless-offline
 
 # you can overwrite defaults here
 #  stage: dev

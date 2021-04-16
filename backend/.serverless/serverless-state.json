@@ -233,7 +233,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/dev/1618510719276-2021-04-15T18:18:39.276Z/backend.zip"
+                "S3Key": "serverless/backend/dev/1618583138037-2021-04-16T14:25:38.037Z/backend.zip"
               },
               "Handler": "s_hello.handler",
               "Runtime": "python3.8",
@@ -258,7 +258,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/dev/1618510719276-2021-04-15T18:18:39.276Z/backend.zip"
+                "S3Key": "serverless/backend/dev/1618583138037-2021-04-16T14:25:38.037Z/backend.zip"
               },
               "Handler": "s_chats.handler",
               "Runtime": "python3.8",
@@ -276,24 +276,24 @@
               "ChatsLogGroup"
             ]
           },
-          "HelloLambdaVersionBHeftLzs4lwfvJKXjkHij3RavnYZvqD3LJgCvNasetQ": {
+          "HelloLambdaVersionQ2fCypF8H9pwHh4vN1VbVbcDN9jQcQhKpZ5wdSxvk": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HelloLambdaFunction"
               },
-              "CodeSha256": "4vsNmZTeV/20KpKJpJa49tiT/I3/XVW0tcvOZDwUeJQ="
+              "CodeSha256": "3ptMAMVx0xb7RGgjBgkuqdiiHEWgnr6sIM1SCCJ6A88="
             }
           },
-          "ChatsLambdaVersion4yKobfruPNDgqQXCKD754yPjrtWPvkEBYgMlc3UfY": {
+          "ChatsLambdaVersionnfWOj51VGzFgSV2EGJ3O69Z37kAXu9XKLyA40234Xc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ChatsLambdaFunction"
               },
-              "CodeSha256": "4vsNmZTeV/20KpKJpJa49tiT/I3/XVW0tcvOZDwUeJQ="
+              "CodeSha256": "3ptMAMVx0xb7RGgjBgkuqdiiHEWgnr6sIM1SCCJ6A88="
             }
           },
           "ApiGatewayRestApi": {
@@ -608,7 +608,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1618510708807": {
+          "ApiGatewayDeployment1618583127162": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -808,9 +808,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/dev/1618510719276-2021-04-15T18:18:39.276Z/custom-resources.zip"
+                "S3Key": "serverless/backend/dev/1618583138037-2021-04-16T14:25:38.037Z/custom-resources.zip"
               },
-              "FunctionName": "backend-undefined-custom-resource-apigw-cw-role",
+              "FunctionName": "backend-dev-custom-resource-apigw-cw-role",
               "Handler": "apiGatewayCloudWatchRole/handler.handler",
               "MemorySize": 1024,
               "Runtime": "nodejs12.x",
@@ -874,13 +874,13 @@
           "HelloLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HelloLambdaVersionBHeftLzs4lwfvJKXjkHij3RavnYZvqD3LJgCvNasetQ"
+              "Ref": "HelloLambdaVersionQ2fCypF8H9pwHh4vN1VbVbcDN9jQcQhKpZ5wdSxvk"
             }
           },
           "ChatsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ChatsLambdaVersion4yKobfruPNDgqQXCKD754yPjrtWPvkEBYgMlc3UfY"
+              "Ref": "ChatsLambdaVersionnfWOj51VGzFgSV2EGJ3O69Z37kAXu9XKLyA40234Xc"
             }
           },
           "ServiceEndpoint": {
@@ -997,9 +997,6 @@
       },
       "vpc": {}
     },
-    "plugins": [
-      "serverless-offline"
-    ],
     "pluginsData": {},
     "functions": {
       "hello": {
@@ -1064,7 +1061,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "HelloLambdaVersionBHeftLzs4lwfvJKXjkHij3RavnYZvqD3LJgCvNasetQ"
+        "versionLogicalId": "HelloLambdaVersionQ2fCypF8H9pwHh4vN1VbVbcDN9jQcQhKpZ5wdSxvk"
       },
       "chats": {
         "handler": "s_chats.handler",
@@ -1102,7 +1099,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "ChatsLambdaVersion4yKobfruPNDgqQXCKD754yPjrtWPvkEBYgMlc3UfY"
+        "versionLogicalId": "ChatsLambdaVersionnfWOj51VGzFgSV2EGJ3O69Z37kAXu9XKLyA40234Xc"
       }
     },
     "configValidationMode": "warn",
@@ -1120,9 +1117,6 @@
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
       },
-      "plugins": {
-        "$ref": "$[\"service\"][\"plugins\"]"
-      },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
       }
@@ -1134,7 +1128,7 @@
     "artifact": "C:\\Users\\rohan\\Documents\\Cornell-Tech\\Spring-2021\\CS-5356\\ChatApp\\backend\\.serverless\\backend.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/backend/dev/1618510719276-2021-04-15T18:18:39.276Z",
+    "artifactDirectoryName": "serverless/backend/dev/1618583138037-2021-04-16T14:25:38.037Z",
     "artifact": "backend.zip"
   }
 }
