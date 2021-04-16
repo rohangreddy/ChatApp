@@ -233,7 +233,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/dev/1617374824143-2021-04-02T14:47:04.143Z/backend.zip"
+                "S3Key": "serverless/backend/dev/1618510719276-2021-04-15T18:18:39.276Z/backend.zip"
               },
               "Handler": "s_hello.handler",
               "Runtime": "python3.8",
@@ -258,7 +258,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/dev/1617374824143-2021-04-02T14:47:04.143Z/backend.zip"
+                "S3Key": "serverless/backend/dev/1618510719276-2021-04-15T18:18:39.276Z/backend.zip"
               },
               "Handler": "s_chats.handler",
               "Runtime": "python3.8",
@@ -276,24 +276,24 @@
               "ChatsLogGroup"
             ]
           },
-          "HelloLambdaVersionivNV9wJ6IgaGbuU1QHuwngHe0zRWQwbo3ymP8aelCc": {
+          "HelloLambdaVersionBHeftLzs4lwfvJKXjkHij3RavnYZvqD3LJgCvNasetQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "HelloLambdaFunction"
               },
-              "CodeSha256": "gzoDmtFsnfX/FMrcMMNgDOQ9BUAQOD7Cp0JRgjLzd54="
+              "CodeSha256": "4vsNmZTeV/20KpKJpJa49tiT/I3/XVW0tcvOZDwUeJQ="
             }
           },
-          "ChatsLambdaVersion3yIUoRHn2y9hLJxqpq0uCd7uJRkJwaL4cEggyOWM": {
+          "ChatsLambdaVersion4yKobfruPNDgqQXCKD754yPjrtWPvkEBYgMlc3UfY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ChatsLambdaFunction"
               },
-              "CodeSha256": "gzoDmtFsnfX/FMrcMMNgDOQ9BUAQOD7Cp0JRgjLzd54="
+              "CodeSha256": "4vsNmZTeV/20KpKJpJa49tiT/I3/XVW0tcvOZDwUeJQ="
             }
           },
           "ApiGatewayRestApi": {
@@ -425,6 +425,51 @@
               },
               "ResourceId": {
                 "Ref": "ApiGatewayResourceProxyVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodChatsOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceChats"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -563,7 +608,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1617374813449": {
+          "ApiGatewayDeployment1618510708807": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -574,6 +619,7 @@
             "DependsOn": [
               "ApiGatewayMethodOptions",
               "ApiGatewayMethodProxyVarOptions",
+              "ApiGatewayMethodChatsOptions",
               "ApiGatewayMethodAny",
               "ApiGatewayMethodProxyVarAny",
               "ApiGatewayMethodChatsGet"
@@ -762,9 +808,9 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend/dev/1617374824143-2021-04-02T14:47:04.143Z/custom-resources.zip"
+                "S3Key": "serverless/backend/dev/1618510719276-2021-04-15T18:18:39.276Z/custom-resources.zip"
               },
-              "FunctionName": "backend-dev-custom-resource-apigw-cw-role",
+              "FunctionName": "backend-undefined-custom-resource-apigw-cw-role",
               "Handler": "apiGatewayCloudWatchRole/handler.handler",
               "MemorySize": 1024,
               "Runtime": "nodejs12.x",
@@ -828,13 +874,13 @@
           "HelloLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "HelloLambdaVersionivNV9wJ6IgaGbuU1QHuwngHe0zRWQwbo3ymP8aelCc"
+              "Ref": "HelloLambdaVersionBHeftLzs4lwfvJKXjkHij3RavnYZvqD3LJgCvNasetQ"
             }
           },
           "ChatsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ChatsLambdaVersion3yIUoRHn2y9hLJxqpq0uCd7uJRkJwaL4cEggyOWM"
+              "Ref": "ChatsLambdaVersion4yKobfruPNDgqQXCKD754yPjrtWPvkEBYgMlc3UfY"
             }
           },
           "ServiceEndpoint": {
@@ -951,6 +997,9 @@
       },
       "vpc": {}
     },
+    "plugins": [
+      "serverless-offline"
+    ],
     "pluginsData": {},
     "functions": {
       "hello": {
@@ -1015,7 +1064,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "HelloLambdaVersionivNV9wJ6IgaGbuU1QHuwngHe0zRWQwbo3ymP8aelCc"
+        "versionLogicalId": "HelloLambdaVersionBHeftLzs4lwfvJKXjkHij3RavnYZvqD3LJgCvNasetQ"
       },
       "chats": {
         "handler": "s_chats.handler",
@@ -1024,6 +1073,25 @@
             "http": {
               "path": "chats",
               "method": "get",
+              "cors": {
+                "origins": [
+                  "*"
+                ],
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "GET"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
               "integration": "AWS_PROXY"
             }
           }
@@ -1034,7 +1102,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "ChatsLambdaVersion3yIUoRHn2y9hLJxqpq0uCd7uJRkJwaL4cEggyOWM"
+        "versionLogicalId": "ChatsLambdaVersion4yKobfruPNDgqQXCKD754yPjrtWPvkEBYgMlc3UfY"
       }
     },
     "configValidationMode": "warn",
@@ -1052,6 +1120,9 @@
       "provider": {
         "$ref": "$[\"service\"][\"provider\"]"
       },
+      "plugins": {
+        "$ref": "$[\"service\"][\"plugins\"]"
+      },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
       }
@@ -1060,10 +1131,10 @@
     "isDashboardAppPreconfigured": true,
     "orgUid": "6b9af93b-db2c-4538-b35e-b3ead2a54415",
     "appUid": "VcCPH40XbMzW8RgS6d",
-    "artifact": "C:\\Users\\rohan\\Documents\\Cornell Tech\\Spring 2021\\CS 5356\\ChatApp\\backend\\.serverless\\backend.zip"
+    "artifact": "C:\\Users\\rohan\\Documents\\Cornell-Tech\\Spring-2021\\CS-5356\\ChatApp\\backend\\.serverless\\backend.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/backend/dev/1617374824143-2021-04-02T14:47:04.143Z",
+    "artifactDirectoryName": "serverless/backend/dev/1618510719276-2021-04-15T18:18:39.276Z",
     "artifact": "backend.zip"
   }
 }
