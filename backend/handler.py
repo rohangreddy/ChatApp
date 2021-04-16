@@ -6,6 +6,10 @@ from google.auth.transport import requests
 
 path = 'C:/Users/rohan/Documents/Cornell-Tech/Spring-2021/CS-5356/ChatApp/backend/'
 
+headers = {
+    'Access-Control-Allow-Origin': '*'
+}
+
 def auth(token):
     request = requests.Request()
     if not token:
@@ -18,8 +22,15 @@ def auth(token):
             "statusCode": 401
         }
     userid = id_info['sub']
+    print(userid)
 
 def chats(event, context):
+    if event['httpMethod'] == 'OPTIONS':
+        return {
+            "statusCode": 200,
+            "headers": headers
+        }
+
     if event["path"] == "/chats" and event['httpMethod'] == "GET":
         
         token = event["headers"]["Authorization"]
@@ -29,6 +40,7 @@ def chats(event, context):
             data = json.load(file)
             return {
                 "statusCode": 200,
+                "headers": headers,
                 "body": json.dumps(data)
             }
 
