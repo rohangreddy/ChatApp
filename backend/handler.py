@@ -3,9 +3,6 @@ import os
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-
-path = 'C:/Users/rohan/Documents/Cornell-Tech/Spring-2021/CS-5356/ChatApp/backend/'
-
 headers = {
     'Access-Control-Allow-Origin': '*'
 }
@@ -35,14 +32,25 @@ def chats(event, context):
         
         token = event["headers"]["Authorization"]
         auth(token)
-        filename = os.path.join(path, 'test.json')
-        with open(filename) as file:
-            data = json.load(file)
-            return {
-                "statusCode": 200,
-                "headers": headers,
-                "body": json.dumps(data)
+        data = [
+            {
+                "room_name": "Chatroom1", 
+                "room_id": "unique_identifier1", 
+                "member_ids": ["rr784 ", "user1 ", "user2 ", "user3"],
+                "num_msgs": 20
+            },
+            {
+                "room_name": "Chatroom2", 
+                "room_id": "unique_identifier2", 
+                "member_ids": ["rr784 ", "user1"],
+                "num_msgs": 5
             }
+        ]
+        return {
+            "statusCode": 200,
+            "headers": headers,
+            "body": json.dumps(data)
+        }
 
 
 
