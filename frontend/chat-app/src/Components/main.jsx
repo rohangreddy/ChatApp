@@ -3,6 +3,10 @@ import React, { Component } from 'react'
 import { Redirect } from "react-router-dom";
 import { auth } from '../services/firebase'
 
+let backendURL = 'https://ogm125joca.execute-api.us-east-1.amazonaws.com/dev'
+if (window.location.href.includes('localhost')) {
+    backendURL = 'http://localhost:4000/dev'
+}
 
 var rootStyle = {
     backgroundColor: '#212226',
@@ -18,7 +22,7 @@ class Chats extends React.Component {
 
     async componentDidMount() {
         const idToken = await firebase.auth().currentUser?.getIdToken()
-        const response = await fetch('https://ogm125joca.execute-api.us-east-1.amazonaws.com/dev/chats', {
+        const response = await fetch(backendURL + '/chats', {
             headers: {
                 'Authorization': idToken
             }
