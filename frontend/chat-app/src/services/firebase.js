@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 const config = {
     apiKey: "AIzaSyDvQQjZjggLRGGXYhKccshhR8-GD8bheEY",
