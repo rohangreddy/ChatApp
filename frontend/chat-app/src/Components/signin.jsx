@@ -12,15 +12,6 @@ var rootStyle = {
     minheight : '100vh'
 }
 
-var boxStyle = {
-    backgroundColor: '#303136',
-}
-
-var fieldStyle = {
-    backgroundColor: '#40454B',
-    color: 'white'
-}
-
 const uiConfig = {
     signInFlow: 'popup',
     //signInSuccessUrl: '/main',

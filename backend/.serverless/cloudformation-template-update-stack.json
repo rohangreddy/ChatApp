@@ -83,6 +83,12 @@
         "LogGroupName": "/aws/lambda/backend-dev-chats"
       }
     },
+    "ChatroomsLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/backend-dev-chatrooms"
+      }
+    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -203,6 +209,12 @@
                         "ChatsLogGroup",
                         "Arn"
                       ]
+                    },
+                    {
+                      "Fn::GetAtt": [
+                        "ChatroomsLogGroup",
+                        "Arn"
+                      ]
                     }
                   ]
                 }
@@ -219,7 +231,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend/dev/1618593213572-2021-04-16T17:13:33.572Z/backend.zip"
+          "S3Key": "serverless/backend/dev/1618786828730-2021-04-18T23:00:28.730Z/backend.zip"
         },
         "Handler": "s_hello.handler",
         "Runtime": "python3.8",
@@ -244,7 +256,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend/dev/1618593213572-2021-04-16T17:13:33.572Z/backend.zip"
+          "S3Key": "serverless/backend/dev/1618786828730-2021-04-18T23:00:28.730Z/backend.zip"
         },
         "Handler": "s_chats.handler",
         "Runtime": "python3.8",
@@ -262,24 +274,59 @@
         "ChatsLogGroup"
       ]
     },
-    "HelloLambdaVersionzqWputxDvwffaRvQiDujHGYvuFYMys5znePXbHfDBo": {
+    "ChatroomsLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/backend/dev/1618786828730-2021-04-18T23:00:28.730Z/backend.zip"
+        },
+        "Handler": "s_chatrooms.handler",
+        "Runtime": "python3.8",
+        "FunctionName": "backend-dev-chatrooms",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "ChatroomsLogGroup"
+      ]
+    },
+    "HelloLambdaVersionB3buqTqvRAPztYszCMnRniNdLtXVtmRuJAzzY0mEsU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "HelloLambdaFunction"
         },
-        "CodeSha256": "gUgNBd4BujlFcCXPxfOJ94/myYl5VAlPS4yrY67ciCo="
+        "CodeSha256": "ayMjtXFF/XIVSTvShx8WCt7lkt0P0iLyiKpMtNMVTxc="
       }
     },
-    "ChatsLambdaVersionplCQPHto5FDCUQ4kYeE553L00Ci3sLWd9L3RX3dIMQ": {
+    "ChatsLambdaVersionEBi34SpPeOw5lTqMgP3PUj9kiYdFaB000UpDFV93bA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ChatsLambdaFunction"
         },
-        "CodeSha256": "gUgNBd4BujlFcCXPxfOJ94/myYl5VAlPS4yrY67ciCo="
+        "CodeSha256": "ayMjtXFF/XIVSTvShx8WCt7lkt0P0iLyiKpMtNMVTxc="
+      }
+    },
+    "ChatroomsLambdaVersion0PCewy2VvMWpkZY71eLcjtrdeONolkUXB626YgbOmA": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ChatroomsLambdaFunction"
+        },
+        "CodeSha256": "ayMjtXFF/XIVSTvShx8WCt7lkt0P0iLyiKpMtNMVTxc="
       }
     },
     "ApiGatewayRestApi": {
@@ -319,6 +366,21 @@
           ]
         },
         "PathPart": "chats",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceChatrooms": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "chatrooms",
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -462,6 +524,51 @@
         }
       }
     },
+    "ApiGatewayMethodChatroomsOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "ContentHandling": "CONVERT_TO_TEXT",
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
+              },
+              "ResponseTemplates": {
+                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceChatrooms"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
     "ApiGatewayMethodAny": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -594,7 +701,50 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1618593192866": {
+    "ApiGatewayMethodChatroomsPost": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "POST",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceChatrooms"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "ChatroomsLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1618786805435": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -606,9 +756,11 @@
         "ApiGatewayMethodOptions",
         "ApiGatewayMethodProxyVarOptions",
         "ApiGatewayMethodChatsOptions",
+        "ApiGatewayMethodChatroomsOptions",
         "ApiGatewayMethodAny",
         "ApiGatewayMethodProxyVarAny",
-        "ApiGatewayMethodChatsGet"
+        "ApiGatewayMethodChatsGet",
+        "ApiGatewayMethodChatroomsPost"
       ]
     },
     "HelloLambdaPermissionApiGateway": {
@@ -654,6 +806,43 @@
         "FunctionName": {
           "Fn::GetAtt": [
             "ChatsLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "ChatroomsLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ChatroomsLambdaFunction",
             "Arn"
           ]
         },
@@ -794,7 +983,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend/dev/1618593213572-2021-04-16T17:13:33.572Z/custom-resources.zip"
+          "S3Key": "serverless/backend/dev/1618786828730-2021-04-18T23:00:28.730Z/custom-resources.zip"
         },
         "FunctionName": "backend-dev-custom-resource-apigw-cw-role",
         "Handler": "apiGatewayCloudWatchRole/handler.handler",
@@ -832,6 +1021,16 @@
         }
       }
     },
+    "CloudWatchLogsSubscriptionFilterChatroomsLogGroup": {
+      "Type": "AWS::Logs::SubscriptionFilter",
+      "Properties": {
+        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:6b9af93b-db2c-4538-b35e-b3ead2a54415#VcCPH40XbMzW8RgS6d#backend#dev",
+        "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
+        "LogGroupName": {
+          "Ref": "ChatroomsLogGroup"
+        }
+      }
+    },
     "CloudWatchLogsSubscriptionFilterApiGatewayLogGroup": {
       "Type": "AWS::Logs::SubscriptionFilter",
       "Properties": {
@@ -860,13 +1059,19 @@
     "HelloLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "HelloLambdaVersionzqWputxDvwffaRvQiDujHGYvuFYMys5znePXbHfDBo"
+        "Ref": "HelloLambdaVersionB3buqTqvRAPztYszCMnRniNdLtXVtmRuJAzzY0mEsU"
       }
     },
     "ChatsLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ChatsLambdaVersionplCQPHto5FDCUQ4kYeE553L00Ci3sLWd9L3RX3dIMQ"
+        "Ref": "ChatsLambdaVersionEBi34SpPeOw5lTqMgP3PUj9kiYdFaB000UpDFV93bA"
+      }
+    },
+    "ChatroomsLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "ChatroomsLambdaVersion0PCewy2VvMWpkZY71eLcjtrdeONolkUXB626YgbOmA"
       }
     },
     "ServiceEndpoint": {

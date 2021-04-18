@@ -26,13 +26,19 @@ provider:
   runtime: python3.8
   lambdaHashingVersion: 20201221
 
+
 plugins: 
   - serverless-python-requirements
+  # - serverless-offline
+
+package:
+  exclude:
+    - env/**
 
 custom:
   pythonRequirements:
     dockerizePip: non-linux
-  #- serverless-offline
+  
 
 # you can overwrite defaults here
 #  stage: dev
@@ -85,6 +91,13 @@ functions:
       - http:
           path: /chats
           method: GET
+          cors: true
+  chatrooms:
+    handler: handler.chatrooms
+    events:
+      - http:
+          path: /chatrooms
+          method: POST
           cors: true
 
 #    The following are a few example events you can configure
