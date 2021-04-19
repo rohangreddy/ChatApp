@@ -4,9 +4,10 @@ import { Redirect } from "react-router-dom";
 import { auth } from '../services/firebase'
 
 let backendURL = 'https://ogm125joca.execute-api.us-east-1.amazonaws.com/dev'
-if (window.location.href.includes('localhost')) {
+if (window.location.href.includes('localhost:4000')) {
     backendURL = 'http://localhost:4000/dev'
 }
+
 
 var rootStyle = {
     backgroundColor: '#212226',
@@ -32,7 +33,6 @@ class Chats extends React.Component {
         })
         const chats = await response.json()
         this.setState({chatrooms: chats})
-        console.log(firebase.auth().currentUser.uid)
     }
 
     addMember() {
@@ -46,7 +46,6 @@ class Chats extends React.Component {
 
     handleRemove(index) {
         this.state.members.splice(index,1)
-        console.log(this.state.members)
         this.setState({members: this.state.members})
         
     }
@@ -65,7 +64,7 @@ class Chats extends React.Component {
 
     async createNewChatroom() {
         const idToken = await firebase.auth().currentUser?.getIdToken()
-        const response = await fetch(backendURL + '/chatrooms', {
+        const response = await fetch(backendURL + '/chats', {
             method: 'POST',
             headers: {
                 'Authorization': idToken

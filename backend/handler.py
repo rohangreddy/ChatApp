@@ -12,6 +12,7 @@ headers = {
 
 dynamodb = boto3.resource('dynamodb',region_name='us-east-1')
 
+
 def auth(token):
     request = requests.Request()
     if not token:
@@ -23,7 +24,6 @@ def auth(token):
         return {
             "statusCode": 401
         }
-    userid = id_info['sub']
     return id_info
 
 def chats(event, context):
@@ -33,41 +33,18 @@ def chats(event, context):
             "headers": headers
         }
 
-    if 'localhost' in event['headers']['Origin']:
-        dynamodb = None
-
-    if event["path"] == "/chats" and event['httpMethod'] == "GET":
-        token = event["headers"]["Authorization"]
-        user = auth(token)
-        data = chat_ops.list_chatrooms(user['sub'], dynamodb)
-        return {
-            "statusCode": 200,
-            "headers": headers,
-            "body": json.dumps(data)
-        }
-
-def chatrooms(event, context):
-    if event['httpMethod'] == 'OPTIONS':
-        return {
-            "statusCode": 200,
-            "headers": headers
-        }
-    
-    if 'localhost' in event['headers']['Origin']:
-        dynamodb = None
-
-    if event["path"] == "/chatrooms" and event['httpMethod'] == "POST":
-        token = event["headers"]["Authorization"]
+    if event["path"] == "/chats" and event['httpMethod'] == "POST":
+        token = event['headers']['Authorization']
         user = auth(token)
 
-        if (not event["body"]):
+        if (not event['body']):
             return {
                 'statusCode': 400,
                 'headers': headers,
                 'body': json.dumps('Missing body')
             }
         
-        body = json.loads(event["body"])
+        body = json.loads(event['body'])
         body['userKey'] = user['sub']
         result = chat_ops.put_room(body['chatId'], body['userKey'], body['info'], dynamodb)
 
@@ -75,6 +52,16 @@ def chatrooms(event, context):
             'statusCode': 201,
             'headers': headers,
             'body': json.dumps(result)    
+        }
+    
+    if event['path'] == "/chats" and event['httpMethod'] == "GET":
+        token = event['headers']['Authorization']
+        user = auth(token)
+        data = chat_ops.list_chatrooms(user['sub'], dynamodb)
+        return {
+            "statusCode": 200,
+            "headers": headers,
+            "body": json.dumps(data)
         }
 
 def hello(event, context):
@@ -94,7 +81,6 @@ def hello(event, context):
             "statusCode": 200,
             "body": json.dumps(body)
         }
-
     return response 
 
 

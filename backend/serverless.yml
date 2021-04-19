@@ -25,15 +25,13 @@ provider:
   name: aws
   runtime: python3.8
   lambdaHashingVersion: 20201221
-
-
+        
 plugins: 
   - serverless-python-requirements
-  # - serverless-offline
 
 package:
   exclude:
-    - env/**
+    - node_modules/**
 
 custom:
   pythonRequirements:
@@ -90,14 +88,7 @@ functions:
     events:
       - http:
           path: /chats
-          method: GET
-          cors: true
-  chatrooms:
-    handler: handler.chatrooms
-    events:
-      - http:
-          path: /chatrooms
-          method: POST
+          method: ANY
           cors: true
 
 #    The following are a few example events you can configure
