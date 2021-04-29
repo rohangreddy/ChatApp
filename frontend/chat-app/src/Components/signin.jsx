@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { auth } from '../services/firebase';
 import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 const uiConfig = {
     signInFlow: 'popup',
@@ -64,94 +64,20 @@ export default class SignIn extends Component {
             return <SignedInComponent user={this.state.user}/>
         }
         return (
-            <section className="section">
-                <div className="container has-text-centered">
-                    <h1 className="title has-text-white">ChatApp</h1>
+            <section class="section">
+                <div class="container has-text-centered">
+                    <div class="title has-text-white">ChatApp</div>
                     <StyledFirebaseAuth
                         uiConfig={uiConfig}
                         firebaseAuth={auth()}/>
+                    <div class="column"></div>
+                        <div class="title is-4">
+                            <Link to="/">
+                                Home
+                            </Link>
+                        </div>
                 </div>
             </section>
         )
     }
 }
-
-
-
-/*export default class SignIn extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            email: "",
-            password: ""
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event) {
-        this.setState({
-          [event.target.name]: event.target.value
-        });
-    }
-
-    async handleSubmit(event) {
-        event.preventDefault();
-        this.setState({ error: "" });
-        try {
-          await signin(this.state.email, this.state.password);
-        } catch (error) {
-          this.setState({ error: error.message });
-        }
-    }
-    
-    render() {
-        return (
-            <div style={rootStyle}>
-                <div class="title">
-                    <div class="column is-4 has-text-white">
-                        ChatApp
-                    </div>
-                </div>
-                <div class="columns is-centered">
-                    <form class="box" onSubmit={this.handleSubmit} style={boxStyle}>
-                        <div class="title is-centered has-text-white">Welcome!</div>
-                        <div class="field">
-                            <label class="label" style={{ color: '#60636A'}}>Email</label>
-                            <input class="input"
-                            placeholder="Email"
-                            name="email"
-                            type="email"
-                            onChange={this.handleChange}
-                            value={this.state.email}
-                            ></input>
-                        </div>
-                        <div class="field">
-                            <label class="label" style={{ color: '#60636A'}} >Password</label>
-                            <input class="input"
-                            placeholder="Password"
-                            name="password"
-                            onChange={this.handleChange}
-                            value={this.state.password}
-                            type="password"
-                            />
-                        </div>
-                        <div style={{color: '#FFFFFF'}}>
-                            {this.state.error ? (
-                            <p>{this.state.error}</p>
-                            ) : null}
-                        </div>
-                        <div>
-                        <button class="button is-primary" type="submit" style={{backgroundColor: '#6979F8'}}>Login</button>
-                        </div>
-                        <p>
-                            Don't have an account? <Link to="/signup">Sign up</Link>
-                        </p>
-                    </form>
-                </div>
-            </div>
-        )
-    }
-}
-*/
