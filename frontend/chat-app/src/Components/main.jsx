@@ -4,17 +4,9 @@ import { Redirect } from "react-router-dom";
 import { auth } from '../services/firebase'
 
 let backendURL = 'https://ogm125joca.execute-api.us-east-1.amazonaws.com/dev'
-if (window.location.href.includes('localhost:4000')) {
+/*if (window.location.href.includes('localhost')) {
     backendURL = 'http://localhost:4000/dev'
-}
-
-
-var rootStyle = {
-    backgroundColor: '#212226',
-    color : 'white',
-    height: '100vh',
-    margin: '0'
-}
+}*/
 
 class Chats extends React.Component {
     state = {
@@ -46,8 +38,7 @@ class Chats extends React.Component {
 
     handleRemove(index) {
         this.state.members.splice(index,1)
-        this.setState({members: this.state.members})
-        
+        this.setState({members: this.state.members}) 
     }
 
     componentDidMount() {
@@ -80,30 +71,23 @@ class Chats extends React.Component {
     render() {
         return (
             <div>
-                <div className="title has-text-white has-text-centered">My Chatrooms </div>
+                <div class="title is-5 has-text-white">My Chatrooms </div>
                 <ul>
                     {
                         this.state.chatrooms && this.state.chatrooms.map(chatroom => {
                             return (
                                 <li>
-                                    <div class="card column is-narrow is-half is-offset-one-quarter" style={{ backgroundColor: '#303136' }}>
-                                        <header class="card-header">
-                                            <p class="card-header-title has-text-white has-text-centered">
+                                    <div class="card column has-text-white" style={{ backgroundColor: '#2a2b2f'}}>
+                                            <p>
                                                 {chatroom.chatId}
                                             </p>
-                                        </header>
-                                        <div class="card-content">
-                                            <div class="content has-text-white">
+                                            <p>
                                                 Members: {chatroom.info.map(member => {
                                                     return(
                                                         member+" "
                                                     )
                                                 })}
-                                            </div>
-                                            <div class="content has-text-white">
-                                                Number of Messages: 
-                                            </div> 
-                                        </div>
+                                            </p>
                                     </div>
                                     <div class="column"></div>
                                 </li>
@@ -111,10 +95,11 @@ class Chats extends React.Component {
                         })
                     }
                 </ul>
-                <div>
+                <div class="card column is-narrow" style={{ backgroundColor: '#2a2b2f' }}>
                     <div class="title has-text-white has-text-centered">Create a Chatroom</div>
                     <div class="column" align="center">
-                        <input type ="text" onChange={(event) => this.onNewChatroomNameUpdated(event)}></input>
+                        <div class="label has-text-white">Room Name</div>
+                        <input class="input" type ="text" onChange={(event) => this.onNewChatroomNameUpdated(event)}></input>
                     </div>
                     <div class="column" align="center">
                         <div class="label has-text-white">Members</div>
@@ -122,20 +107,17 @@ class Chats extends React.Component {
                             this.state.members.map((member, index) => {
                                 return (
                                     <div key={index}>
-                                        <input onChange={(event) => this.handleChange(event, index)} type="text" value={member} />
+                                        <input class="input" onChange={(event) => this.handleChange(event, index)} type="text" value={member} />
                                         <button onClick={(event) => this.handleRemove(index)}>X</button>
-                                    </div>
-
-                                    
+                                    </div>  
                                 )
                             })
                         }
-                        <button onClick={(event) => this.addMember(event)}>Add Member</button>
+                        <button class="button" style={{backgroundColor: '#40454B', color: '#FFFFFF'}} onClick={(event) => this.addMember(event)}>Add Member</button>
                     </div>
                     <div class="column" align="center">
-                        <button onClick={() => this.createNewChatroom()}>Create</button>
+                        <button class="button" style={{backgroundColor: '#40454B', color: '#FFFFFF'}} onClick={() => this.createNewChatroom()}>Create</button>
                     </div>
-                    
                 </div>
             </div>
         )
@@ -159,7 +141,6 @@ export default class MainPage extends Component {
             else {
                 this.setState({user: null})
             }
-
          });
     }
 
@@ -181,17 +162,29 @@ export default class MainPage extends Component {
     render() {
         if (this.state.user) {
             return (
-                <div style={rootStyle}>
-                    <div class="column" align="right">
-                        <button class="button" style={{backgroundColor: '#40454B', color: '#FFFFFF'}} onClick={() => this.signOut()}>Sign Out</button>
-                    </div>
+                <div style={{backgroundColor: '#212226'}}>
                     <div class="columns">
-                        <div class="column" style={{backgroundColor: '#363940', height: '100vh'}}>
-                                <h1>Welcome {this.state.user.displayName}, {this.state.user.email}!</h1>
-                                <div class="column"></div>
-                                <Chats/>
+                        <div class="column">
+                            <div class="title has-text-white">ChatApp</div>
+                        </div>
+                        <div class="column" align="right">
+                            <button class="button mt-1" style={{backgroundColor: '#40454B', color: '#FFFFFF'}} onClick={() => this.signOut()}>Sign Out</button>
                         </div>
                     </div>
+                    <div class="columns" style={{height: '92vh'}}>
+                        <div class="column is-one-fifth" style={{backgroundColor: '#303136', overflow: "auto"}}>
+                            <Chats/>
+                        </div>
+                        <div class="column" style={{backgroundColor: '#363940'}}></div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-one-fifth has-text-white" style={{backgroundColor: '#212226'}}>
+                            Welcome {this.state.user.displayName}, {this.state.user.email}!
+                        </div>
+                        <div class="column" style={{backgroundColor: '#363940'}}>
+                        </div>
+                    </div>
+                    
                 </div>
             ); 
         }

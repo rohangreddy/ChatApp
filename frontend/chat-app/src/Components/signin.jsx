@@ -4,14 +4,6 @@ import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Redirect } from "react-router-dom";
 
-
-var rootStyle = {
-    backgroundColor: '#363940',
-    color : 'white',
-    height: '100vh',
-    minheight : '100vh'
-}
-
 const uiConfig = {
     signInFlow: 'popup',
     //signInSuccessUrl: '/main',
@@ -37,13 +29,6 @@ class SignedInComponent extends Component {
     render() {
         return (
             <Redirect to="/main" />
-            /*<section className="section">
-                <div className="container has-text-centered">
-                    Hello {this.props.user.displayName} {this.props.user.email}!
-                    You are now signed in.
-                    <button onClick={() => this.signOut()}>Sign out </button>
-                </div>
-            </section>*/
         )
     }
 }
@@ -79,7 +64,7 @@ export default class SignIn extends Component {
             return <SignedInComponent user={this.state.user}/>
         }
         return (
-            <section className="section" style={rootStyle}>
+            <section className="section">
                 <div className="container has-text-centered">
                     <h1 className="title has-text-white">ChatApp</h1>
                     <StyledFirebaseAuth

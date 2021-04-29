@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
 import {Link } from "react-router-dom";
 
-
-
-var rootStyle = {
-    backgroundColor: '#363940',
-    height: '100vh',
-}
-
 var boxStyle = {
     backgroundColor: '#303136',
     color: 'white',
@@ -17,7 +10,7 @@ var boxStyle = {
 export default class Landing extends Component {
     render() {
         return (
-            <div style={rootStyle}>
+            <div>
                 <div class="column has-text-right">
                     <div class="title">
                         <Link to="/signin">
